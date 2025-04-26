@@ -1,0 +1,160 @@
+esphome:
+  name: kitchen-hood
+  friendly_name: Kitchen Hood
+
+substitutions:
+  name: Kitchen Hood
+
+esp8266:
+  board: esp01_1m
+web_server:
+  port: 80
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: ""
+
+ota:
+  - platform: esphome
+    password: ""
+
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Kitchen-Hood Fallback Hotspot"
+    password: ""
+
+captive_portal:
+
+
+
+# -------------------- OUTPUTS --------------------
+output:
+  - platform: gpio
+    id: relay1
+    pin: GPIO13
+  - platform: gpio
+    id: relay2
+    pin: GPIO14
+  - platform: gpio
+    id: relay3
+    pin: GPIO12
+  - platform: gpio
+    id: relay4
+    pin: GPIO16  # For light
+
+# -------------------- LIGHT --------------------
+light:
+  - platform: binary
+    id: fan_light
+    name: "Light"
+    output: relay4
+
+# -------------------- NUMBER CONTROL --------------------
+number:
+  - platform: template
+    name: "Kitchen Hood Speed"
+    id: kitchen_hood_speed
+    min_value: 1
+    max_value: 3
+    step: 1
+    restore_value: true
+    optimistic: true
+    on_value:
+      then:
+        - logger.log:
+            format: "Number changed to %0.0f"
+            args: ["x"]
+        # - script.execute:
+        #     id: set_fan_speed
+        #     speed_level: !lambda 'return int(x);'
+
+
+# -------------------- FAN --------------------
+fan:
+  - platform: template
+    name: "Fan"
+    id: hood_fan
+    speed_count: 3
+    on_turn_on:
+      then:
+        - logger.log:
+            format: "Fan manually turned ON"
+        - script.execute:
+            id: set_fan_speed
+            speed_level: !lambda 'return int(id(kitchen_hood_speed).state);'
+    on_speed_set:
+      then:
+        - lambda: |-
+            id(kitchen_hood_speed).publish_state(x);
+        - script.execute:
+            id: set_fan_speed
+            speed_level: !lambda 'return int(x);'
+    on_turn_off:
+      then:
+        - logger.log:
+            format: "Fan manually turned OFF"
+        - output.turn_off: relay1
+        - output.turn_off: relay2
+        - output.turn_off: relay3
+
+# -------------------- SCRIPT --------------------
+script:
+  - id: set_fan_speed
+    parameters:
+      speed_level: int
+    then:
+      - logger.log:
+          format: "Fan speed set to level: %d"
+          args: ["speed_level"]
+
+      # Turn everything off first
+      - output.turn_off: relay1
+      - output.turn_off: relay2
+      - output.turn_off: relay3
+
+      # Speed 1
+      - if:
+          condition:
+            lambda: 'return speed_level == 1;'
+          then:
+            - output.turn_off: relay1
+            - output.turn_off: relay3
+            - output.turn_on: relay2
+            - number.set:
+                id: kitchen_hood_speed
+                value: 1
+
+      # Speed 2
+      - if:
+          condition:
+            lambda: 'return speed_level == 2;'
+          then:
+            - output.turn_off: relay3
+            - output.turn_on: relay2
+            - delay: 3s
+            - output.turn_off: relay2
+            - output.turn_on: relay1
+            - number.set:
+                id: kitchen_hood_speed
+                value: 2
+
+      # Speed 3
+      - if:
+          condition:
+            lambda: 'return speed_level == 3;'
+          then:
+            - output.turn_off: relay1
+            - output.turn_on: relay2
+            - delay: 3s
+            - output.turn_off: relay2
+            - output.turn_on: relay3
+            - number.set:
+                id: kitchen_hood_speed
+                value: 3
