@@ -15,7 +15,7 @@ This project converts a traditional kitchen hood into a smart fan with 3 speed l
 - Wiring to the kitchen hood
 
 ## Wiring Diagram
-![Wiring Diagram](images/wiring.jpg)
+![ESP Board](espboard.avif)
 
 ## ESPHome Configuration
 See `kitchen-hood.yaml` for full details.
