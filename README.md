@@ -98,6 +98,18 @@ Start by inspecting the **controller board PCB**.
 
 ---
 
+## Wiring Diagram
+![ESP Board](espboard.avif)
+
+## ESPHome Configuration
+See `kitchen-hood.yaml` for full details.
+
+## How it works
+- Fan speed is controlled using a Number entity (1-3)
+- Relays are toggled based on the selected speed
+- Fully synchronized with Home Assistant controls
+  
+
 ## Example ESPHome YAML
 
 ```yaml
@@ -186,14 +198,3 @@ script:
             - delay: 3s
             - output.turn_on: relay3
             - output.turn_off: relay2
-
-## Wiring Diagram
-![ESP Board](espboard.avif)
-
-## ESPHome Configuration
-See `kitchen-hood.yaml` for full details.
-
-## How it works
-- Fan speed is controlled using a Number entity (1-3)
-- Relays are toggled based on the selected speed
-- Fully synchronized with Home Assistant controls
