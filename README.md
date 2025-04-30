@@ -43,7 +43,7 @@ Start by inspecting the **controller board PCB**.
   - Installed a **240V AC to 12V DC converter**.
   - Controlled the 12V output using the **4th relay**.
 - Replaced the touch button board with **5x HTTM capacitive touch sensors**.
-- ![ESP button](button.avif)
+- ![ESP button](button.avif){ width=40% }
 - Connected everything to the ESP32 board.
 
 ---
