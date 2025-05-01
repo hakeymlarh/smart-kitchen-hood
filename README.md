@@ -16,7 +16,7 @@ Start by inspecting the **controller board PCB**.
   - Changing the fan speed **switches different relays**.
   - Using a **test pen**, I unplugged the motor wiring and observed:
     - It always **starts with the Low Speed relay active for 3 seconds** before switching to the desired relay for the selected speed.
-
+ <img src="original_controller.jpg" width="300"/>
 ---
 
 ## About the Button Board
@@ -43,8 +43,7 @@ Start by inspecting the **controller board PCB**.
   - Installed a **240V AC to 12V DC converter**.
   - Controlled the 12V output using the **4th relay**.
 - Replaced the touch button board with **5x HTTM capacitive touch sensors**.
-- 
-  <img src="button.avif" width="300"/>
+- <img src="button.avif" width="300"/>
 - Connected everything to the ESP32 board.
 
 ---
