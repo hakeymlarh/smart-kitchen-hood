@@ -103,7 +103,7 @@ Start by inspecting the **controller board PCB**.
 ---
 
 ## Wiring Diagram
-![ESP Board](WhatsApp Image 2025-04-07 at 15.01.39_3ee236e6.jpg)
+<img src="WhatsApp Image 2025-04-07 at 15.01.39_3ee236e6.jpg" width="300"/>
 
 ## ESPHome Configuration
 See `kitchen-hood.yaml` for full details.
