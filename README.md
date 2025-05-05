@@ -16,7 +16,7 @@ Start by inspecting the **controller board PCB**.
   - Changing the fan speed **switches different relays**.
   - Using a **test pen**, I unplugged the motor wiring and observed:
     - It always **starts with the Low Speed relay active for 3 seconds** before switching to the desired relay for the selected speed.
- <img src="original_controller.jpg" width="300"/>
+ <img src="oriboard.jpg" width="300"/>
 ---
 
 ## About the Button Board
