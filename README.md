@@ -17,6 +17,8 @@ Start by inspecting the **controller board PCB**.
   - Using a **test pen**, I unplugged the motor wiring and observed:
     - It always **starts with the Low Speed relay active for 3 seconds** before switching to the desired relay for the selected speed.
  <img src="oriboard.jpg" width="300"/>
+From the board I know that from LIVE incoming power, go to the fuse and then to the relay. From the relay it goes to the motor terminal.
+The NEUTRAL incoming power go straight to the motor Neutral terminal. 
 ---
 
 ## About the Button Board
